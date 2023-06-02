@@ -1,0 +1,4 @@
+i2c.c:13:17:getTimings	5
+i2c.c:26:15:i2cSetup	13
+i2c.c:92:8:i2c_write	3
+i2c.c:104:8:i2c_read	3

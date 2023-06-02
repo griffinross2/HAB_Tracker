@@ -1,0 +1,5 @@
+spi.c:17:8:spi_setup	18
+spi.c:95:8:spi_set_cs	1
+spi.c:99:8:spi_exchange_nosetup	2
+spi.c:108:8:spi_exchange	3
+spi.c:122:20:get_handle	1

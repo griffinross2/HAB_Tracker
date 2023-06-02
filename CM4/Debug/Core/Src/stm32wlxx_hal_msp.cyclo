@@ -1,0 +1,12 @@
+stm32wlxx_ll_bus.h:449:22:LL_AHB2_GRP1_EnableClock	1
+stm32wlxx_ll_bus.h:914:22:LL_APB1_GRP1_EnableClock	1
+stm32wlxx_ll_bus.h:1018:22:LL_APB1_GRP1_DisableClock	1
+stm32wlxx_ll_bus.h:1303:22:LL_APB2_GRP1_EnableClock	1
+stm32wlxx_ll_bus.h:1351:22:LL_APB2_GRP1_DisableClock	1
+stm32wlxx_hal_msp.c:63:6:HAL_MspInit	1
+stm32wlxx_hal_msp.c:82:6:HAL_I2C_MspInit	5
+stm32wlxx_hal_msp.c:161:6:HAL_I2C_MspDeInit	3
+stm32wlxx_hal_msp.c:212:6:HAL_SPI_MspInit	2
+stm32wlxx_hal_msp.c:249:6:HAL_SPI_MspDeInit	2
+stm32wlxx_hal_msp.c:279:6:HAL_TIM_Base_MspInit	3
+stm32wlxx_hal_msp.c:312:6:HAL_TIM_Base_MspDeInit	3
