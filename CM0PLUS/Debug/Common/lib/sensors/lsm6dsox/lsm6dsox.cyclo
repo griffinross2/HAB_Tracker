@@ -1,7 +1,0 @@
-lsm6dsox.c:11:15:lsm6dsox_read	2
-lsm6dsox.c:34:15:lsm6dsox_write	2
-lsm6dsox.c:57:8:lsm6dsox_init	5
-lsm6dsox.c:87:7:lsm6dsox_read_accel	8
-lsm6dsox.c:132:6:lsm6dsox_read_gyro	10
-lsm6dsox.c:180:8:lsm6dsox_config_accel	5
-lsm6dsox.c:211:8:lsm6dsox_config_gyro	8

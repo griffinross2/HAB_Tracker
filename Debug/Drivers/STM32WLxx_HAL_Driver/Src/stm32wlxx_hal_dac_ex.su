@@ -1,0 +1,5 @@
+../Drivers/STM32WLxx_HAL_Driver/Src/stm32wlxx_hal_dac_ex.c:122:19:HAL_DACEx_TriangleWaveGenerate	24	static
+../Drivers/STM32WLxx_HAL_Driver/Src/stm32wlxx_hal_dac_ex.c:171:19:HAL_DACEx_NoiseWaveGenerate	24	static
+../Drivers/STM32WLxx_HAL_Driver/Src/stm32wlxx_hal_dac_ex.c:210:19:HAL_DACEx_SelfCalibrate	48	static
+../Drivers/STM32WLxx_HAL_Driver/Src/stm32wlxx_hal_dac_ex.c:346:19:HAL_DACEx_SetUserTrimming	32	static
+../Drivers/STM32WLxx_HAL_Driver/Src/stm32wlxx_hal_dac_ex.c:387:10:HAL_DACEx_GetTrimOffset	16	static

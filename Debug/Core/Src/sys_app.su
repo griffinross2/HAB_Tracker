@@ -1,0 +1,10 @@
+../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_ll_system.h:1880:26:LL_FLASH_GetUDN	4	static
+../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_ll_system.h:1890:26:LL_FLASH_GetDeviceID	4	static
+../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_ll_system.h:1900:26:LL_FLASH_GetSTCompanyID	4	static
+../Core/Src/sys_app.c:73:6:SystemApp_Init	4	static
+../Core/Src/sys_app.c:81:9:GetBatteryLevel	16	static
+../Core/Src/sys_app.c:92:9:GetTemperatureLevel	16	static
+../Core/Src/sys_app.c:102:6:GetUniqueId	40	static
+../Core/Src/sys_app.c:142:6:GetDevAddr	24	static
+../Core/Src/sys_app.c:182:10:HAL_GetTick	16	static
+../Core/Src/sys_app.c:214:6:HAL_Delay	16	static

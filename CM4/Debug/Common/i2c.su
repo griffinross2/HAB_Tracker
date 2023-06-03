@@ -1,4 +1,0 @@
-D:/github_repos/HAB_Tracker/Common/i2c.c:13:17:getTimings	16	static
-D:/github_repos/HAB_Tracker/Common/i2c.c:26:15:i2cSetup	88	static
-D:/github_repos/HAB_Tracker/Common/i2c.c:92:8:i2c_write	32	static
-D:/github_repos/HAB_Tracker/Common/i2c.c:104:8:i2c_read	32	static

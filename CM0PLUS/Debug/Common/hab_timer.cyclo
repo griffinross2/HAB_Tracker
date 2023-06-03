@@ -1,7 +1,0 @@
-stm32wlxx_ll_bus.h:2014:22:LL_C2_APB1_GRP1_EnableClock	1
-stm32wlxx_ll_bus.h:2291:22:LL_C2_APB2_GRP1_EnableClock	1
-hab_timer.c:8:6:init_timers	1
-hab_timer.c:54:10:MICROS	1
-hab_timer.c:60:10:MILLIS	1
-hab_timer.c:64:6:DELAY	4
-hab_timer.c:69:6:DELAY_MICROS	4

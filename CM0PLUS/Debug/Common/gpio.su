@@ -1,3 +1,0 @@
-D:/github_repos/HAB_Tracker/Common/gpio.c:6:8:gpio_mode	56	static
-D:/github_repos/HAB_Tracker/Common/gpio.c:19:8:gpio_write	56	static
-D:/github_repos/HAB_Tracker/Common/gpio.c:33:11:gpio_read	56	static

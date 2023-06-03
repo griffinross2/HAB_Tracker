@@ -1,0 +1,5 @@
+stm32wlxx_hal_dac_ex.c:122:19:HAL_DACEx_TriangleWaveGenerate	2
+stm32wlxx_hal_dac_ex.c:171:19:HAL_DACEx_NoiseWaveGenerate	2
+stm32wlxx_hal_dac_ex.c:210:19:HAL_DACEx_SelfCalibrate	10
+stm32wlxx_hal_dac_ex.c:346:19:HAL_DACEx_SetUserTrimming	3
+stm32wlxx_hal_dac_ex.c:387:10:HAL_DACEx_GetTrimOffset	1
