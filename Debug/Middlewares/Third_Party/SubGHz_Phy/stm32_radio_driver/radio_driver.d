@@ -28,6 +28,7 @@ Middlewares/Third_Party/SubGHz_Phy/stm32_radio_driver/radio_driver.o: \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_gpio_ex.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_i2c.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_i2c_ex.h \
+ ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_lptim.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_pwr.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_ll_pwr.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_pwr_ex.h \
@@ -79,6 +80,7 @@ Middlewares/Third_Party/SubGHz_Phy/stm32_radio_driver/radio_driver.o: \
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_gpio_ex.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_i2c.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_i2c_ex.h:
+../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_lptim.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_pwr.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_ll_pwr.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_pwr_ex.h:

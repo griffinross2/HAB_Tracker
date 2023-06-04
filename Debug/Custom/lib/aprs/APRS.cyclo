@@ -1,0 +1,9 @@
+APRS.c:53:6:APRS_init	1
+APRS.c:57:6:APRS_print	1
+APRS.c:61:6:APRS_encode	9
+APRS.c:107:6:APRS_send	1
+APRS.c:112:6:APRS_update_fcs	1
+APRS.c:116:6:APRS_encode_insert_byte	2
+APRS.c:123:6:APRS_encode_stuff_byte	4
+APRS.c:142:6:APRS_encode_stuff_byte_update_fcs	1
+APRS.c:147:6:APRS_encode_insert_callsign	6

@@ -1,0 +1,2 @@
+../Custom/lib/sensors/iis2mdc/iis2mdc.c:8:8:iis2mdc_init	24	static
+../Custom/lib/sensors/iis2mdc/iis2mdc.c:35:5:iis2mdc_read	48	static

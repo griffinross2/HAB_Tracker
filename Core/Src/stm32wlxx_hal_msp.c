@@ -23,6 +23,7 @@
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
+extern DMA_HandleTypeDef hdma_dac_out1;
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
@@ -99,6 +100,24 @@ void HAL_DAC_MspInit(DAC_HandleTypeDef* hdac)
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+    /* DAC DMA Init */
+    /* DAC_OUT1 Init */
+    hdma_dac_out1.Instance = DMA1_Channel1;
+    hdma_dac_out1.Init.Request = DMA_REQUEST_DAC_OUT1;
+    hdma_dac_out1.Init.Direction = DMA_MEMORY_TO_PERIPH;
+    hdma_dac_out1.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_dac_out1.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_dac_out1.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+    hdma_dac_out1.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
+    hdma_dac_out1.Init.Mode = DMA_CIRCULAR;
+    hdma_dac_out1.Init.Priority = DMA_PRIORITY_VERY_HIGH;
+    if (HAL_DMA_Init(&hdma_dac_out1) != HAL_OK)
+    {
+      Error_Handler();
+    }
+
+    __HAL_LINKDMA(hdac,DMA_Handle1,hdma_dac_out1);
+
   /* USER CODE BEGIN DAC_MspInit 1 */
 
   /* USER CODE END DAC_MspInit 1 */
@@ -127,6 +146,8 @@ void HAL_DAC_MspDeInit(DAC_HandleTypeDef* hdac)
     */
     HAL_GPIO_DeInit(GPIOA, GPIO_PIN_10);
 
+    /* DAC DMA DeInit */
+    HAL_DMA_DeInit(hdac->DMA_Handle1);
   /* USER CODE BEGIN DAC_MspDeInit 1 */
 
   /* USER CODE END DAC_MspDeInit 1 */
@@ -260,6 +281,61 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef* hi2c)
   /* USER CODE BEGIN I2C2_MspDeInit 1 */
 
   /* USER CODE END I2C2_MspDeInit 1 */
+  }
+
+}
+
+/**
+* @brief LPTIM MSP Initialization
+* This function configures the hardware resources used in this example
+* @param hlptim: LPTIM handle pointer
+* @retval None
+*/
+void HAL_LPTIM_MspInit(LPTIM_HandleTypeDef* hlptim)
+{
+  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
+  if(hlptim->Instance==LPTIM2)
+  {
+  /* USER CODE BEGIN LPTIM2_MspInit 0 */
+
+  /* USER CODE END LPTIM2_MspInit 0 */
+
+  /** Initializes the peripherals clocks
+  */
+    PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_LPTIM2;
+    PeriphClkInitStruct.Lptim2ClockSelection = RCC_LPTIM2CLKSOURCE_PCLK1;
+    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
+    {
+      Error_Handler();
+    }
+
+    /* Peripheral clock enable */
+    __HAL_RCC_LPTIM2_CLK_ENABLE();
+  /* USER CODE BEGIN LPTIM2_MspInit 1 */
+
+  /* USER CODE END LPTIM2_MspInit 1 */
+  }
+
+}
+
+/**
+* @brief LPTIM MSP De-Initialization
+* This function freeze the hardware resources used in this example
+* @param hlptim: LPTIM handle pointer
+* @retval None
+*/
+void HAL_LPTIM_MspDeInit(LPTIM_HandleTypeDef* hlptim)
+{
+  if(hlptim->Instance==LPTIM2)
+  {
+  /* USER CODE BEGIN LPTIM2_MspDeInit 0 */
+
+  /* USER CODE END LPTIM2_MspDeInit 0 */
+    /* Peripheral clock disable */
+    __HAL_RCC_LPTIM2_CLK_DISABLE();
+  /* USER CODE BEGIN LPTIM2_MspDeInit 1 */
+
+  /* USER CODE END LPTIM2_MspDeInit 1 */
   }
 
 }

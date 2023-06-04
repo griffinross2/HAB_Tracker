@@ -1,0 +1,5 @@
+../Custom/lib/gps/max_m10s.c:16:8:max_m10s_init	160	static
+../Custom/lib/gps/max_m10s.c:33:15:ubx_read_msg	88	static
+../Custom/lib/gps/max_m10s.c:118:39:ubx_cfg_valget	912	dynamic
+../Custom/lib/gps/max_m10s.c:174:15:ubx_cfg_valset	912	dynamic
+../Custom/lib/gps/max_m10s.c:235:8:max_m10s_poll_fix	872	dynamic

@@ -26,6 +26,7 @@ Core/Src/hab_timer.o: ../Core/Src/hab_timer.c \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_gpio_ex.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_i2c.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_i2c_ex.h \
+ ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_lptim.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_pwr.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_ll_pwr.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_pwr_ex.h \
@@ -69,6 +70,7 @@ C:/Users/griff/STM32CubeIDE/workspace_1.11.2/HAB_Tracker_new/Custom/hab_timer.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_gpio_ex.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_i2c.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_i2c_ex.h:
+../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_lptim.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_pwr.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_ll_pwr.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_pwr_ex.h:

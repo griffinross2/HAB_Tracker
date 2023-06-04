@@ -26,6 +26,7 @@ Core/Src/hab_program.o: ../Core/Src/hab_program.c \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_gpio_ex.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_i2c.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_i2c_ex.h \
+ ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_lptim.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_pwr.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_ll_pwr.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_pwr_ex.h \
@@ -64,7 +65,9 @@ Core/Src/hab_program.o: ../Core/Src/hab_program.c \
  C:/Users/griff/STM32CubeIDE/workspace_1.11.2/HAB_Tracker_new/Custom/lib/sensors/ms5637/ms5637.h \
  c:\users\griff\stm32cubeide\workspace_1.11.2\hab_tracker_new\custom\lib\sensors\data.h \
  c:\users\griff\stm32cubeide\workspace_1.11.2\hab_tracker_new\custom\lib\peripherals\i2c\i2c.h \
- ../Core/Inc/main.h
+ ../Core/Inc/main.h \
+ C:/Users/griff/STM32CubeIDE/workspace_1.11.2/HAB_Tracker_new/Custom/lib/aprs/APRS.h \
+ C:/Users/griff/STM32CubeIDE/workspace_1.11.2/HAB_Tracker_new/Custom/lib/aprs/BitFIFO.h
 C:/Users/griff/STM32CubeIDE/workspace_1.11.2/HAB_Tracker_new/Custom/board.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal.h:
 ../Core/Inc/stm32wlxx_hal_conf.h:
@@ -92,6 +95,7 @@ C:/Users/griff/STM32CubeIDE/workspace_1.11.2/HAB_Tracker_new/Custom/board.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_gpio_ex.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_i2c.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_i2c_ex.h:
+../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_lptim.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_pwr.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_ll_pwr.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_pwr_ex.h:
@@ -131,3 +135,5 @@ C:/Users/griff/STM32CubeIDE/workspace_1.11.2/HAB_Tracker_new/Custom/lib/sensors/
 c:\users\griff\stm32cubeide\workspace_1.11.2\hab_tracker_new\custom\lib\sensors\data.h:
 c:\users\griff\stm32cubeide\workspace_1.11.2\hab_tracker_new\custom\lib\peripherals\i2c\i2c.h:
 ../Core/Inc/main.h:
+C:/Users/griff/STM32CubeIDE/workspace_1.11.2/HAB_Tracker_new/Custom/lib/aprs/APRS.h:
+C:/Users/griff/STM32CubeIDE/workspace_1.11.2/HAB_Tracker_new/Custom/lib/aprs/BitFIFO.h:

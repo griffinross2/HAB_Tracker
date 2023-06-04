@@ -24,6 +24,13 @@ C_DEPS :=
 SUBDIRS := \
 Core/Src \
 Core/Startup \
+Custom/lib/aprs \
+Custom/lib/gps \
+Custom/lib/radio/hx1 \
+Custom/lib/radio/lora \
+Custom/lib/sensors/iis2mdc \
+Custom/lib/sensors/lsm6dsox \
+Custom/lib/sensors/ms5637 \
 Drivers/STM32WLxx_HAL_Driver/Src \
 LoRaWAN/App \
 LoRaWAN/Target \

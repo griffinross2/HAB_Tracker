@@ -1,0 +1,7 @@
+../Custom/lib/aprs/BitFIFO.c:11:16:BitFIFO_get	16	static
+../Custom/lib/aprs/BitFIFO.c:15:13:BitFIFO_set	24	static
+../Custom/lib/aprs/BitFIFO.c:23:6:BitFIFO_init	24	static
+../Custom/lib/aprs/BitFIFO.c:30:6:BitFIFO_reinit	16	static
+../Custom/lib/aprs/BitFIFO.c:35:6:BitFIFO_is_empty	16	static
+../Custom/lib/aprs/BitFIFO.c:39:6:BitFIFO_push	16	static
+../Custom/lib/aprs/BitFIFO.c:50:9:BitFIFO_pop	24	static
