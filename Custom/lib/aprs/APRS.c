@@ -6,6 +6,7 @@
  */
 
 #include "APRS.h"
+#include "AFSK.h"
 
 const uint16_t APRS_CCITT_LOOKUP[256] = {
 	0x0000, 0x1189, 0x2312, 0x329b, 0x4624, 0x57ad, 0x6536, 0x74bf,
@@ -46,7 +47,7 @@ APRSPacket APRS_DEFAULT_PACKET = {
 	.dest     = "APRS",
 	.callsign = "KN4UIR-11",
 	.digi     = "WIDE1-1,WIDE2-2",
-	.info     = "Test Packet"
+	.info     = ">Test Packet"
 };
 
 // public functions
@@ -161,7 +162,7 @@ void APRS_encode_insert_callsign(BitFIFO *bfifo, char *sign, uint8_t *stuff_coun
 	}
 	if (ssid) {
 		ssid = 0;
-	} else if (*(sign+2) >= '0') { // assumes ',' delimiter, otherwise need  <= '9' also
+	} else if (*(sign+2) >= '0' && *(sign+2) <= '9') {
 		ssid = 10 + (*(sign+2) - '0');
 	} else {
 		ssid = *(sign+1) - '0';

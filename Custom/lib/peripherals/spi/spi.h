@@ -10,6 +10,10 @@
 #include "../../peripherals/gpio/gpio.h"
 #include "../../common/status.h"
 
+#include "main.h"
+
+extern SPI_HandleTypeDef hspi1;
+
 typedef enum {
     P_SPI1 = 0,
     P_SPI2 = 1,

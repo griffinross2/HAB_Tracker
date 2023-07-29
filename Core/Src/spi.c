@@ -3,22 +3,18 @@
 #include "board.h"
 #include "peripherals/gpio/gpio.h"
 #include "stdio.h"
-#include "stm32wlxx_hal.h"
 #include "hab_timer.h"
 
-static SPI_HandleTypeDef spi1_handle = {.State = 0};
-static SPI_HandleTypeDef spi2_handle = {.State = 0};
-static SPI_HandleTypeDef spi3_handle = {.State = 0};
-static SPI_HandleTypeDef spi4_handle = {.State = 0};
-static SPI_HandleTypeDef* spi_handles[] = {&spi1_handle, &spi2_handle,
-                                           &spi3_handle, &spi4_handle};
+static uint8_t spi_state[] = {0};
+static SPI_HandleTypeDef* spi_handles[] = {&hspi1};
+
 static uint8_t cs_pin[4] = {PIN_PA4, 0, 0, 0};
 
 Status spi_setup(SpiDevice* dev) {
     if (dev->periph < 0 || dev->periph > 3) {
         return STATUS_PARAMETER_ERROR;
     }
-    if (spi_handles[dev->periph]->State != 0) {
+    if (spi_state[dev->periph] != 0) {
         return STATUS_OK;
     }
     SPI_TypeDef* base = NULL;
@@ -55,16 +51,16 @@ Status spi_setup(SpiDevice* dev) {
             prescale = SPI_BAUDRATEPRESCALER_256;
             break;
         case SPI_SPEED_500kHz:
-            prescale = SPI_BAUDRATEPRESCALER_64;
+            prescale = SPI_BAUDRATEPRESCALER_128;
             break;
         case SPI_SPEED_1MHz:
-            prescale = SPI_BAUDRATEPRESCALER_32;
+            prescale = SPI_BAUDRATEPRESCALER_64;
             break;
         case SPI_SPEED_10MHz:
-            prescale = SPI_BAUDRATEPRESCALER_4;
+            prescale = SPI_BAUDRATEPRESCALER_8;
             break;
         case SPI_SPEED_20MHz:
-            prescale = SPI_BAUDRATEPRESCALER_2;
+            prescale = SPI_BAUDRATEPRESCALER_4;
             break;
         default:
             return STATUS_PARAMETER_ERROR;
@@ -89,6 +85,8 @@ Status spi_setup(SpiDevice* dev) {
     if (HAL_SPI_Init(handle) != HAL_OK) {
         return STATUS_ERROR;
     }
+
+    spi_state[dev->periph] = 1;
     return STATUS_OK;
 }
 

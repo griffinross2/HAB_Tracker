@@ -5,6 +5,10 @@
 #include <stdint.h>
 
 #include "../../common/status.h"
+#include "main.h"
+
+extern I2C_HandleTypeDef hi2c1;
+extern I2C_HandleTypeDef hi2c2;
 
 typedef enum {
     P_I2C1 = 0,

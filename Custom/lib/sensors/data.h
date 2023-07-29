@@ -14,6 +14,12 @@ typedef struct {
                       // a range of 10.00 to 1200.00 mbar
 } BaroData;
 
+// Temperature Probe DS18B20
+
+typedef struct {
+    float temperature;  // Temperature in deg C
+} TempProbe;
+
 // IMU LSM6
 
 typedef struct {
@@ -43,6 +49,7 @@ typedef struct {
     Gyro gyro;
     Mag mag;
     BaroData baro;
+    TempProbe temp;
 } SensorData;
 
 #endif // DATA_H

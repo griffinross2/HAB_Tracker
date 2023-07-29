@@ -22,6 +22,7 @@
 #include "stm32wlxx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "hab_program.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -56,6 +57,10 @@
 
 /* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_dac_out1;
+extern LPTIM_HandleTypeDef hlptim1;
+extern SUBGHZ_HandleTypeDef hsubghz;
+extern DMA_HandleTypeDef hdma_usart1_tx;
+extern DMA_HandleTypeDef hdma_usart1_rx;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -210,6 +215,62 @@ void DMA1_Channel1_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Channel1_IRQn 1 */
 
   /* USER CODE END DMA1_Channel1_IRQn 1 */
+}
+
+/**
+  * @brief This function handles LPTIM1 Global Interrupt.
+  */
+void LPTIM1_IRQHandler(void)
+{
+  /* USER CODE BEGIN LPTIM1_IRQn 0 */
+
+  /* USER CODE END LPTIM1_IRQn 0 */
+  HAL_LPTIM_IRQHandler(&hlptim1);
+  /* USER CODE BEGIN LPTIM1_IRQn 1 */
+  sensor_irq();
+  /* USER CODE END LPTIM1_IRQn 1 */
+}
+
+/**
+  * @brief This function handles SUBGHZ Radio Interrupt.
+  */
+void SUBGHZ_Radio_IRQHandler(void)
+{
+  /* USER CODE BEGIN SUBGHZ_Radio_IRQn 0 */
+
+  /* USER CODE END SUBGHZ_Radio_IRQn 0 */
+  HAL_SUBGHZ_IRQHandler(&hsubghz);
+  /* USER CODE BEGIN SUBGHZ_Radio_IRQn 1 */
+
+  /* USER CODE END SUBGHZ_Radio_IRQn 1 */
+}
+
+/**
+  * @brief This function handles DMA2 Channel 1 Interrupt.
+  */
+void DMA2_Channel1_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA2_Channel1_IRQn 0 */
+
+  /* USER CODE END DMA2_Channel1_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_usart1_tx);
+  /* USER CODE BEGIN DMA2_Channel1_IRQn 1 */
+
+  /* USER CODE END DMA2_Channel1_IRQn 1 */
+}
+
+/**
+  * @brief This function handles DMA2 Channel 2 Interrupt.
+  */
+void DMA2_Channel2_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA2_Channel2_IRQn 0 */
+
+  /* USER CODE END DMA2_Channel2_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_usart1_rx);
+  /* USER CODE BEGIN DMA2_Channel2_IRQn 1 */
+
+  /* USER CODE END DMA2_Channel2_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

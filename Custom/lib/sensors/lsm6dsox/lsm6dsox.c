@@ -4,92 +4,70 @@
 
 #include "math.h"
 #include "hab_timer.h"
+#include "stdio.h"
 
 Lsm6dsoxAccelRange g_current_accel_range = LSM6DSOX_XL_RANGE_16_G;
 Lsm6dsoxGyroRange g_current_gyro_range = LSM6DSOX_G_RANGE_2000_DPS;
 
-static Status lsm6dsox_read(SpiDevice* device, uint8_t address, uint8_t* rx_buf,
-                            uint8_t len) {
-    if (address > 127) {
-        return STATUS_PARAMETER_ERROR;
-    }
+Status lsm6dsox_init(I2cDevice* device) {
+	uint8_t buf[2];
 
-    // Create tx buffer with extra dummy bytes
-    uint8_t tx_buf[len + 1];
-    // Create rx buffer with space for the initial blank byte
-    uint8_t rx_buf_new[len + 1];
+	// Read WHO_AM_I register to confirm we're connected
+	buf[0] = LSM6DSOX_WHO_AM_I;
+	if (i2c_write(device, buf, 1) != STATUS_OK) {
+		return STATUS_ERROR;
+	}
+	if (i2c_read(device, buf, 1) != STATUS_OK) {
+		return STATUS_ERROR;
+	}
+	if (buf[0] != 0x6C) {
+		return STATUS_ERROR;
+	}
 
-    tx_buf[0] = address | 0x80;  // Add address and read bit to tx buffer
+	// Perform configuration
+	buf[0] = LSM6DSOX_CTRL3_C;
+	buf[1] = 0x85;  // Reset
+	if (i2c_write(device, buf, 2) != STATUS_OK) {
+		return STATUS_ERROR;
+	}
 
-    // Exchange the address and read len bits then copy all but the first byte
-    // received to the original rx_buf.
-    Status status = spi_exchange(device, tx_buf, rx_buf_new, len + 1);
-    memcpy(rx_buf, rx_buf_new + 1, len);
+	// Disable I3C and DEN value
+	buf[0] = LSM6DSOX_CTRL9_XL;
+	buf[1] = 0x02;
+	if (i2c_write(device, buf, 2) != STATUS_OK) {
+		return STATUS_ERROR;
+	}
 
-    DELAY_MICROS(100);
+	// Enable and configure the accel to 16g range and 6.66khz rate
+	buf[0] = LSM6DSOX_CTRL1_XL;
+	buf[1] = LSM6DSOX_XL_RANGE_16_G | LSM6DSOX_XL_RATE_6_66_KHZ;
+	if (i2c_write(device, buf, 2) != STATUS_OK) {
+		return STATUS_ERROR;
+	}
 
-    return status;
+	// Enable and configure the gyro to 2000dps range and 6.66khz rate
+	buf[0] = LSM6DSOX_CTRL2_G;
+	buf[1] = LSM6DSOX_G_RANGE_2000_DPS | LSM6DSOX_G_RATE_6_66_KHZ;
+	if (i2c_write(device, buf, 2) != STATUS_OK) {
+		return STATUS_ERROR;
+	}
+
+	return STATUS_OK;
 }
 
-static Status lsm6dsox_write(SpiDevice* device, uint8_t address,
-                             uint8_t* tx_buf, uint8_t len) {
-    if (address > 127) {
-        return STATUS_PARAMETER_ERROR;
-    }
-
-    // Create dummy read buffer
-    uint8_t rx_buf[len + 1];
-
-    // Create new tx buffer
-    uint8_t tx_buf_new[len + 1];
-    tx_buf_new[0] = address & 0x7F;  // Add address and write bit to tx buffer
-    memcpy(tx_buf_new + 1, tx_buf,
-           len);  // Copy bytes to end of the new tx buffer
-
-    // Exchange address and write len bytes
-    Status status = spi_exchange(device, tx_buf_new, rx_buf, len + 1);
-
-    DELAY_MICROS(100);
-    
-    return status;
-}
-
-Status lsm6dsox_init(SpiDevice* device) {
-    uint8_t tx_buf;
-
-    tx_buf = 0x85;
-    if (lsm6dsox_write(device, LSM6DSOX_CTRL3_C, &tx_buf, 1) !=
-        STATUS_OK)  // Reset
-    {
-        return STATUS_ERROR;
-    }
-    // Disable I3C and DEN value
-    tx_buf = 0x02;
-    if (lsm6dsox_write(device, LSM6DSOX_CTRL9_XL, &tx_buf, 1) != STATUS_OK) {
-        return STATUS_ERROR;
-    }
-
-    // Enable and configure the accel to 16g range and 6.66khz rate
-    tx_buf = LSM6DSOX_XL_RANGE_16_G | LSM6DSOX_XL_RATE_6_66_KHZ;
-    if (lsm6dsox_write(device, LSM6DSOX_CTRL1_XL, &tx_buf, 1) != STATUS_OK) {
-        return STATUS_ERROR;
-    }
-
-    // Enable and configure the gyro to 2000dps range and 6.66khz rate
-    tx_buf = LSM6DSOX_G_RANGE_2000_DPS | LSM6DSOX_G_RATE_6_66_KHZ;
-    if (lsm6dsox_write(device, LSM6DSOX_CTRL2_G, &tx_buf, 1) != STATUS_OK) {
-        return STATUS_ERROR;
-    }
-
-    return STATUS_OK;
-}
-
-Accel lsm6dsox_read_accel(SpiDevice* device) {
+Accel lsm6dsox_read_accel(I2cDevice* device) {
     Accel result;
 
     // Read all 6 registers at once
     uint8_t rx_buf[6];
-    if (lsm6dsox_read(device, LSM6DSOX_OUT_A, rx_buf, 6) != STATUS_OK) {
+    rx_buf[0] = LSM6DSOX_OUT_A;
+    if (i2c_write(device, rx_buf, 1) != STATUS_OK) {
+    	result.accelX = NAN;
+		result.accelY = NAN;
+		result.accelZ = NAN;
+		return result;
+	}
+    if (i2c_read(device, rx_buf, 6) != STATUS_OK) {
         result.accelX = NAN;
         result.accelY = NAN;
         result.accelZ = NAN;
@@ -129,17 +107,24 @@ Accel lsm6dsox_read_accel(SpiDevice* device) {
     return result;
 }
 
-Gyro lsm6dsox_read_gyro(SpiDevice* device) {
+Gyro lsm6dsox_read_gyro(I2cDevice* device) {
     Gyro result;
 
     // Read all 6 registers at once
     uint8_t rx_buf[6];
-    if (lsm6dsox_read(device, LSM6DSOX_OUT_G, rx_buf, 6) != STATUS_OK) {
-        result.gyroX = NAN;
-        result.gyroY = NAN;
-        result.gyroZ = NAN;
-        return result;
-    }
+    rx_buf[0] = LSM6DSOX_OUT_G;
+	if (i2c_write(device, rx_buf, 1) != STATUS_OK) {
+		result.gyroX = NAN;
+		result.gyroY = NAN;
+		result.gyroZ = NAN;
+		return result;
+	}
+	if (i2c_read(device, rx_buf, 6) != STATUS_OK) {
+		result.gyroX = NAN;
+		result.gyroY = NAN;
+		result.gyroZ = NAN;
+		return result;
+	}
 
     // Convert unsigned 8-bit halves to signed 16-bit numbers
     int16_t g_x_raw = (int16_t)(((uint16_t)rx_buf[1] << 8) | rx_buf[0]);
@@ -177,25 +162,26 @@ Gyro lsm6dsox_read_gyro(SpiDevice* device) {
     return result;
 }
 
-Status lsm6dsox_config_accel(SpiDevice* device, Lsm6dsoxAccelDataRate rate,
+Status lsm6dsox_config_accel(I2cDevice* device, Lsm6dsoxAccelDataRate rate,
                              Lsm6dsoxAccelRange range) {
-    uint8_t tx_buf = rate | range;
+    uint8_t tx_buf[2];
+    tx_buf[0] = LSM6DSOX_CTRL1_XL;
+    tx_buf[1] = rate | range;
 
-    Status status = lsm6dsox_write(device, LSM6DSOX_CTRL1_XL, &tx_buf,
-                                   1);  // Configure the accelerometer to the
-                                        // specified range and measurement rate
-    if (status != STATUS_OK) {
-        return status;
+    // Configure the accelerometer to the specified range and measurement rate
+    if (i2c_write(device, tx_buf, 2) != STATUS_OK) {
+        return STATUS_ERROR;
     }
 
-    uint8_t rx_buf;
+    uint8_t rx_buf = LSM6DSOX_CTRL1_XL;
 
-    status = lsm6dsox_read(device, LSM6DSOX_CTRL1_XL, &rx_buf,
-                           1);  // Verify the settings
-
-    if (status != STATUS_OK) {
-        return status;
+    if (i2c_write(device, &rx_buf, 1) != STATUS_OK) { // Verify the settings
+        return STATUS_ERROR;
     }
+
+	if (i2c_read(device, &rx_buf, 1) != STATUS_OK) {
+		return STATUS_ERROR;
+	}
 
     if ((rx_buf & 0xF0) != rate) {
         return STATUS_ERROR;
@@ -208,29 +194,30 @@ Status lsm6dsox_config_accel(SpiDevice* device, Lsm6dsoxAccelDataRate rate,
     return STATUS_OK;
 }
 
-Status lsm6dsox_config_gyro(SpiDevice* device, Lsm6dsoxGyroDataRate rate,
+Status lsm6dsox_config_gyro(I2cDevice* device, Lsm6dsoxGyroDataRate rate,
                             Lsm6dsoxGyroRange range) {
-    uint8_t tx_buf = rate | range;
-    if (range == LSM6DSOX_G_RANGE_125_DPS) {
-        tx_buf |= 0x02;
-    }
 
-    Status status = lsm6dsox_write(device, LSM6DSOX_CTRL2_G, &tx_buf,
-                                   1);  // Configure the gyroscope to the
-                                        // specified range and measurement rate
+    uint8_t tx_buf[2];
+	tx_buf[0] = LSM6DSOX_CTRL2_G;
+	tx_buf[1] = rate | range;
+	if (range == LSM6DSOX_G_RANGE_125_DPS) {
+		tx_buf[1] |= 0x02;
+	}
 
-    if (status != STATUS_OK) {
-        return status;
-    }
+	// Configure the gyroscope to the specified range and measurement rate
+	if (i2c_write(device, tx_buf, 2) != STATUS_OK) {
+		return STATUS_ERROR;
+	}
 
-    uint8_t rx_buf;
+    uint8_t rx_buf = LSM6DSOX_CTRL2_G;
 
-    status = lsm6dsox_read(device, LSM6DSOX_CTRL2_G, &rx_buf,
-                           1);  // Verify the settings
+	if (i2c_write(device, &rx_buf, 1) != STATUS_OK) { // Verify the settings
+		return STATUS_ERROR;
+	}
 
-    if (status != STATUS_OK) {
-        return status;
-    }
+	if (i2c_read(device, &rx_buf, 1) != STATUS_OK) {
+		return STATUS_ERROR;
+	}
 
     if ((rx_buf & 0xF0) != rate) {
         return STATUS_ERROR;

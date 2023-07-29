@@ -51,7 +51,18 @@ extern "C" {
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
+void MX_DMA_Init(void);
+void MX_DAC_Init(void);
+void MX_I2C1_Init(void);
+void MX_I2C2_Init(void);
+void MX_SPI1_Init(void);
 void MX_SUBGHZ_Init(void);
+void MX_TIM1_Init(void);
+void MX_TIM2_Init(void);
+void MX_LPTIM2_Init(void);
+void MX_USART2_UART_Init(void);
+void MX_USART1_UART_Init(void);
+void MX_LPTIM1_Init(void);
 
 /* USER CODE BEGIN EFP */
 
@@ -60,7 +71,9 @@ void MX_SUBGHZ_Init(void);
 /* Private defines -----------------------------------------------------------*/
 
 /* USER CODE BEGIN Private defines */
-
+#define RTC_N_PREDIV_S 10
+#define RTC_PREDIV_S ((1<<RTC_N_PREDIV_S)-1)
+#define RTC_PREDIV_A ((1<<(15-RTC_N_PREDIV_S))-1)
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

@@ -1,2 +1,7 @@
-hab_program.c:36:6:hab_program	1
-hab_program.c:51:6:fill_packet	5
+hab_program.c:96:6:hab_init	9
+hab_program.c:170:6:hab_loop	6
+hab_program.c:205:6:fill_packet	5
+hab_program.c:222:6:tx_sensor_lora	3
+hab_program.c:258:6:tx_gps_lora	3
+hab_program.c:311:6:init_sensor_timer	1
+hab_program.c:315:6:sensor_irq	5

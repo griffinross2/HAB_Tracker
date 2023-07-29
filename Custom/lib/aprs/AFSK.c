@@ -68,11 +68,18 @@ bool AFSK_send(BitFIFO *bfifo) {
 		return false;
 	}
 
+	if (radio_in_use == 2)
+	{
+		return false;
+	}
+	radio_in_use = 1;
+
 	send_fifo = bfifo;
 	phase = 0;
 	AFSK_sending = 1;
 	AFSK_send_fillbuff(send_buff, sizeof(send_buff));
 	gpio_write(TX_PTT_Pin, 0);
+	gpio_write(PIN_PB5, GPIO_HIGH);
 	DELAY(5);
 	HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, (uint32_t*) send_buff, sizeof(send_buff), DAC_ALIGN_8B_R);
 
@@ -106,6 +113,7 @@ void HAL_DAC_ConvHalfCpltCallbackCh1(DAC_HandleTypeDef *hdac_p) {
 		HAL_DAC_Start(&hdac, DAC_CHANNEL_1); // stopping DMA stops DAC too
 		HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, DAC_ALIGN_8B_R, DAC_REST);
 		gpio_write(TX_PTT_Pin, 1);
+		radio_in_use = 0;
 	}
 
 	AFSK_send_fillbuff(send_buff, sizeof(send_buff) >> 1);
@@ -120,6 +128,7 @@ void HAL_DAC_ConvCpltCallbackCh1(DAC_HandleTypeDef *hdac_p) {
 		HAL_DAC_Start(&hdac, DAC_CHANNEL_1); // stopping DMA stops DAC too
 		HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, DAC_ALIGN_8B_R, DAC_REST);
 		gpio_write(TX_PTT_Pin, 1);
+		radio_in_use = 0;
 	}
 
 	AFSK_send_fillbuff(send_buff + (sizeof(send_buff) >> 1), sizeof(send_buff) >> 1);

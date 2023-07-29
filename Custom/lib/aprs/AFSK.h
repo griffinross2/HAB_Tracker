@@ -17,12 +17,13 @@
 #include "IntFIFO.h"
 #include "APRS.h"
 
-#define TX_PTT_Pin PIN_PA10
+#define TX_PTT_Pin PIN_PA0
 
 extern DAC_HandleTypeDef hdac;
 extern LPTIM_HandleTypeDef hlptim2;
 
 extern bool AFSK_sending;
+extern volatile uint8_t radio_in_use;
 
 void AFSK_init();
 bool AFSK_send(BitFIFO *bfifo);

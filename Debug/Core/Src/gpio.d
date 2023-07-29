@@ -43,6 +43,8 @@ Core/Src/gpio.o: ../Core/Src/gpio.c \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_ll_spi.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_tim.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_tim_ex.h \
+ ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_uart.h \
+ ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_uart_ex.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_ll_system.h
 C:/Users/griff/STM32CubeIDE/workspace_1.11.2/HAB_Tracker_new/Custom/lib/peripherals/gpio/gpio.h:
 c:\users\griff\stm32cubeide\workspace_1.11.2\hab_tracker_new\custom\lib\common\status.h:
@@ -88,4 +90,6 @@ C:/Users/griff/STM32CubeIDE/workspace_1.11.2/HAB_Tracker_new/Custom/board.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_ll_spi.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_tim.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_tim_ex.h:
+../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_uart.h:
+../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_uart_ex.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_ll_system.h:

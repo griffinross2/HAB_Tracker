@@ -1,14 +1,9 @@
 #include "peripherals/i2c/i2c.h"
 
 #include "board.h"
-#include "stm32wlxx_hal.h"
 
-static I2C_HandleTypeDef i2c1_handle = {.State = 0};
-static I2C_HandleTypeDef i2c2_handle = {.State = 0};
-static I2C_HandleTypeDef i2c3_handle = {.State = 0};
-static I2C_HandleTypeDef i2c4_handle = {.State = 0};
-static I2C_HandleTypeDef *i2c_handles[4] = {&i2c1_handle, &i2c2_handle,
-                                            &i2c3_handle, &i2c4_handle};
+static uint8_t i2c_state[2] = {0, 0};
+static I2C_HandleTypeDef *i2c_handles[2] = {&hi2c1, &hi2c2};
 
 static uint32_t getTimings(I2cDevice *dev) {
     switch (dev->clk) {
@@ -27,7 +22,7 @@ static Status i2cSetup(I2cDevice *dev) {
     if (dev->periph < 0 || dev->periph > 3) {
         return STATUS_PARAMETER_ERROR;
     }
-    if (i2c_handles[dev->periph]->State != 0) {
+    if (i2c_state[dev->periph] != 0) {
         return STATUS_OK;
     }
     I2C_TypeDef *base = NULL;
@@ -86,6 +81,8 @@ static Status i2cSetup(I2cDevice *dev) {
     if (HAL_I2CEx_ConfigDigitalFilter(handle, 0) != HAL_OK) {
         return STATUS_ERROR;
     }
+
+    i2c_state[dev->periph] = 1;
     return STATUS_OK;
 }
 

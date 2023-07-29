@@ -9,28 +9,16 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include Utilities/trace/adv_trace/subdir.mk
--include Utilities/timer/subdir.mk
--include Utilities/sequencer/subdir.mk
 -include Utilities/misc/subdir.mk
--include Utilities/lpm/tiny_lpm/subdir.mk
--include Middlewares/Third_Party/SubGHz_Phy/stm32_radio_driver/subdir.mk
--include Middlewares/Third_Party/LoRaWAN/Utilities/subdir.mk
--include Middlewares/Third_Party/LoRaWAN/Mac/Region/subdir.mk
--include Middlewares/Third_Party/LoRaWAN/Mac/subdir.mk
--include Middlewares/Third_Party/LoRaWAN/LmHandler/Packages/subdir.mk
--include Middlewares/Third_Party/LoRaWAN/LmHandler/subdir.mk
--include Middlewares/Third_Party/LoRaWAN/Crypto/subdir.mk
--include LoRaWAN/Target/subdir.mk
--include LoRaWAN/App/subdir.mk
 -include Drivers/STM32WLxx_HAL_Driver/Src/subdir.mk
+-include Drivers/Radio/subdir.mk
 -include Custom/lib/sensors/ms5637/subdir.mk
 -include Custom/lib/sensors/lsm6dsox/subdir.mk
 -include Custom/lib/sensors/iis2mdc/subdir.mk
--include Custom/lib/radio/lora/subdir.mk
--include Custom/lib/radio/hx1/subdir.mk
+-include Custom/lib/sensors/ds18b20/subdir.mk
 -include Custom/lib/gps/subdir.mk
 -include Custom/lib/aprs/subdir.mk
+-include Custom/fatfs/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
 -include objects.mk
@@ -82,7 +70,7 @@ main-build: HAB_Tracker_new.elf secondary-outputs
 
 # Tool invocations
 HAB_Tracker_new.elf HAB_Tracker_new.map: $(OBJS) $(USER_OBJS) C:\Users\griff\STM32CubeIDE\workspace_1.11.2\HAB_Tracker_new\STM32WLE5CCUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "HAB_Tracker_new.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\griff\STM32CubeIDE\workspace_1.11.2\HAB_Tracker_new\STM32WLE5CCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HAB_Tracker_new.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "HAB_Tracker_new.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\griff\STM32CubeIDE\workspace_1.11.2\HAB_Tracker_new\STM32WLE5CCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HAB_Tracker_new.map" -Wl,--gc-sections -Wl,--verbose -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

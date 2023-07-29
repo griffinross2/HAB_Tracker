@@ -1,2 +1,7 @@
-../Core/Src/hab_program.c:36:6:hab_program	32	static
-../Core/Src/hab_program.c:51:6:fill_packet	112	static
+../Core/Src/hab_program.c:96:6:hab_init	8	static
+../Core/Src/hab_program.c:170:6:hab_loop	64	static
+../Core/Src/hab_program.c:205:6:fill_packet	136	static
+../Core/Src/hab_program.c:222:6:tx_sensor_lora	680	static
+../Core/Src/hab_program.c:258:6:tx_gps_lora	720	static
+../Core/Src/hab_program.c:311:6:init_sensor_timer	8	static
+../Core/Src/hab_program.c:315:6:sensor_irq	112	static

@@ -4,10 +4,11 @@
 #include <stdint.h>
 
 #include "../data.h"
-#include "../../peripherals/spi/spi.h"
+#include "../../peripherals/i2c/i2c.h"
 #include "../../common/status.h"
 
 // Register Definitions
+#define LSM6DSOX_WHO_AM_I 0x0F
 #define LSM6DSOX_CTRL1_XL 0x10
 #define LSM6DSOX_CTRL2_G 0x11
 #define LSM6DSOX_CTRL3_C 0x12
@@ -65,20 +66,20 @@ typedef enum {
 } Lsm6dsoxGyroRange;
 
 // Initalize the sensor
-Status lsm6dsox_init(SpiDevice* device);
+Status lsm6dsox_init(I2cDevice* device);
 
 // Read the acceleration registers
-Accel lsm6dsox_read_accel(SpiDevice* device);
+Accel lsm6dsox_read_accel(I2cDevice* device);
 
 // Reading gyro registers
-Gyro lsm6dsox_read_gyro(SpiDevice* device);
+Gyro lsm6dsox_read_gyro(I2cDevice* device);
 
 // Set the accelerometer range and measurement rate
-Status lsm6dsox_config_accel(SpiDevice* device, Lsm6dsoxAccelDataRate rate,
+Status lsm6dsox_config_accel(I2cDevice* device, Lsm6dsoxAccelDataRate rate,
                              Lsm6dsoxAccelRange range);
 
 // Set the gyroscope range and measurement rate
-Status lsm6dsox_config_gyro(SpiDevice* device, Lsm6dsoxGyroDataRate rate,
+Status lsm6dsox_config_gyro(I2cDevice* device, Lsm6dsoxGyroDataRate rate,
                             Lsm6dsoxGyroRange range);
 
 #endif // LSM6DSOX_H

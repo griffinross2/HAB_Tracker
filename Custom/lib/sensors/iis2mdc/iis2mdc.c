@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "hab_timer.h"
 
@@ -11,7 +12,7 @@ Status iis2mdc_init(I2cDevice* device, Iis2mdcODR odr) {
     // Read WHO_AM_I register to confirm we're connected
     buf[0] = IIS2MDC_WHO_AM_I;
     if (i2c_write(device, buf, 1) != STATUS_OK) {
-        return STATUS_ERROR;
+    	return STATUS_ERROR;
     }
     if (i2c_read(device, buf, 1) != STATUS_OK) {
         return STATUS_ERROR;

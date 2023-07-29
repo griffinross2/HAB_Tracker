@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include "main.h"
 #include <malloc.h>
 
 #include "BitFIFO.h"

@@ -9,8 +9,8 @@ uint64_t MICROS();
 
 uint64_t MILLIS();
 
-void DELAY(uint16_t mS);
+void DELAY(volatile uint64_t mS);
 
-void DELAY_MICROS(uint32_t uS);
+void DELAY_MICROS(volatile uint64_t uS);
 
 #endif

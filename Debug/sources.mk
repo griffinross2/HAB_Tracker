@@ -24,26 +24,14 @@ C_DEPS :=
 SUBDIRS := \
 Core/Src \
 Core/Startup \
+Custom/fatfs \
 Custom/lib/aprs \
 Custom/lib/gps \
-Custom/lib/radio/hx1 \
-Custom/lib/radio/lora \
+Custom/lib/sensors/ds18b20 \
 Custom/lib/sensors/iis2mdc \
 Custom/lib/sensors/lsm6dsox \
 Custom/lib/sensors/ms5637 \
+Drivers/Radio \
 Drivers/STM32WLxx_HAL_Driver/Src \
-LoRaWAN/App \
-LoRaWAN/Target \
-Middlewares/Third_Party/LoRaWAN/Crypto \
-Middlewares/Third_Party/LoRaWAN/LmHandler \
-Middlewares/Third_Party/LoRaWAN/LmHandler/Packages \
-Middlewares/Third_Party/LoRaWAN/Mac \
-Middlewares/Third_Party/LoRaWAN/Mac/Region \
-Middlewares/Third_Party/LoRaWAN/Utilities \
-Middlewares/Third_Party/SubGHz_Phy/stm32_radio_driver \
-Utilities/lpm/tiny_lpm \
 Utilities/misc \
-Utilities/sequencer \
-Utilities/timer \
-Utilities/trace/adv_trace \
 
