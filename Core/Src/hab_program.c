@@ -90,7 +90,7 @@ float last_lon = NAN;
 
 void fill_packet(APRSPacket* packet, int hour, int min, int sec, float lat, float lon, int hdg, int spd_kt, int alt_ft, char* comment);
 void tx_sensor_lora(SensorData* data);
-void tx_gps_lora(GPS_Fix_TypeDef* fix);
+void tx_gps_lora(GPS_Fix_TypeDef* fix, float lat, float lon);
 void init_sensor_timer();
 
 void hab_init()
@@ -158,6 +158,9 @@ void hab_init()
 		printf("SD card initialization failed\n");
 	}
 
+	// Enable heater
+	gpio_write(PIN_PB8, GPIO_HIGH);
+
 	init_sensor_timer();
 
 	gpio_write(PIN_PB4, GPIO_HIGH);
@@ -190,7 +193,7 @@ void hab_loop()
 
 		DELAY(5000);
 
-		tx_gps_lora(&fix);
+		tx_gps_lora(&fix, last_lon, last_lon);
 	}
 	if (max_m10s_poll_fix(&s_gps_conf, &fix) == STATUS_OK) {
 		if(!isnan(fix.lat) && !isnan(fix.lon) && fix.fix_valid)
@@ -255,7 +258,7 @@ void tx_sensor_lora(SensorData* data)
 	Radio.Send((uint8_t*)sensor_msg, strlen(sensor_msg) + 1);
 }
 
-void tx_gps_lora(GPS_Fix_TypeDef* fix)
+void tx_gps_lora(GPS_Fix_TypeDef* fix, float lat, float lon)
 {
 	if(lora_state == TX)
 	{
@@ -270,8 +273,8 @@ void tx_gps_lora(GPS_Fix_TypeDef* fix)
 	radio_in_use = 2;
 
 	char gps_str[244];
-	int32_t lat_int = fix->lat * 10000000;
-	int32_t lon_int = fix->lon * 10000000;
+	int32_t lat_int = lat * 10000000;
+	int32_t lon_int = lon * 10000000;
 	int32_t height_int = fix->height_msl * 10;
 	int16_t vel_north_int = fix->vel_north * 10;
 	int16_t vel_east_int = fix->vel_east * 10;
