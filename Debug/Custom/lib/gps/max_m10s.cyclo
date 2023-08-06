@@ -1,5 +1,0 @@
-max_m10s.c:16:8:max_m10s_init	2
-max_m10s.c:33:15:ubx_read_msg	20
-max_m10s.c:118:39:ubx_cfg_valget	8
-max_m10s.c:174:15:ubx_cfg_valset	11
-max_m10s.c:235:8:max_m10s_poll_fix	5

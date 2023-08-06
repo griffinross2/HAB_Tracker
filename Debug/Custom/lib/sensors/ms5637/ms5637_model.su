@@ -1,2 +1,0 @@
-../Custom/lib/sensors/ms5637/ms5637_model.c:24:8:ms5637_model_i2c_write	24	static
-../Custom/lib/sensors/ms5637/ms5637_model.c:55:8:ms5637_model_i2c_read	32	static

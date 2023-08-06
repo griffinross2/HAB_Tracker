@@ -1,5 +1,0 @@
-../Core/Src/spi.c:13:8:spi_setup	112	static
-../Core/Src/spi.c:93:8:spi_set_cs	16	static
-../Core/Src/spi.c:97:8:spi_exchange_nosetup	32	static
-../Core/Src/spi.c:106:8:spi_exchange	24	static
-../Core/Src/spi.c:120:20:get_handle	16	static

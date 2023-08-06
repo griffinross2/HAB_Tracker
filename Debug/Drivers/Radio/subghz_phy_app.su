@@ -1,6 +1,0 @@
-../Drivers/Radio/subghz_phy_app.c:102:6:SubghzApp_Init	56	static
-../Drivers/Radio/subghz_phy_app.c:170:13:OnTxDone	4	static
-../Drivers/Radio/subghz_phy_app.c:180:13:OnRxDone	24	static
-../Drivers/Radio/subghz_phy_app.c:193:13:OnTxTimeout	4	static
-../Drivers/Radio/subghz_phy_app.c:203:13:OnRxTimeout	4	static
-../Drivers/Radio/subghz_phy_app.c:216:13:OnRxError	4	static

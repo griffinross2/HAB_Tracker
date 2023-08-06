@@ -1,4 +1,0 @@
-../Custom/lib/aprs/IntFIFO.c:10:6:IntFIFO_init	24	static
-../Custom/lib/aprs/IntFIFO.c:17:6:IntFIFO_is_empty	16	static
-../Custom/lib/aprs/IntFIFO.c:21:6:IntFIFO_push	16	static
-../Custom/lib/aprs/IntFIFO.c:32:9:IntFIFO_pop	24	static

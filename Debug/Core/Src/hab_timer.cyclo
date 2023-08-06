@@ -1,5 +1,0 @@
-hab_timer.c:8:6:init_timers	1
-hab_timer.c:13:10:MICROS	1
-hab_timer.c:19:10:MILLIS	1
-hab_timer.c:23:6:DELAY	2
-hab_timer.c:30:6:DELAY_MICROS	2

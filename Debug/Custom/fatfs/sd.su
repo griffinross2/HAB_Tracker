@@ -1,7 +1,0 @@
-../Custom/fatfs/sd.c:12:7:get_fattime	4	static
-../Custom/fatfs/sd.c:14:8:sd_init	16	static
-../Custom/fatfs/sd.c:61:8:sd_write_sensor_data	240	static
-../Custom/fatfs/sd.c:83:8:sd_write_gps_data	200	static
-../Custom/fatfs/sd.c:106:8:sd_reinit	8	static
-../Custom/fatfs/sd.c:120:8:sd_deinit	8	static
-../Custom/fatfs/sd.c:134:8:sd_flush	8	static

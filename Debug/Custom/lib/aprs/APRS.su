@@ -1,9 +1,0 @@
-../Custom/lib/aprs/APRS.c:54:6:APRS_init	8	static
-../Custom/lib/aprs/APRS.c:58:6:APRS_print	24	static
-../Custom/lib/aprs/APRS.c:62:6:APRS_encode	56	static
-../Custom/lib/aprs/APRS.c:108:6:APRS_send	16	static
-../Custom/lib/aprs/APRS.c:113:6:APRS_update_fcs	16	static
-../Custom/lib/aprs/APRS.c:117:6:APRS_encode_insert_byte	24	static
-../Custom/lib/aprs/APRS.c:124:6:APRS_encode_stuff_byte	32	static
-../Custom/lib/aprs/APRS.c:143:6:APRS_encode_stuff_byte_update_fcs	24	static
-../Custom/lib/aprs/APRS.c:148:6:APRS_encode_insert_callsign	40	static

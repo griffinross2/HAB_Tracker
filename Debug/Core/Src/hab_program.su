@@ -1,7 +1,0 @@
-../Core/Src/hab_program.c:96:6:hab_init	8	static
-../Core/Src/hab_program.c:173:6:hab_loop	64	static
-../Core/Src/hab_program.c:208:6:fill_packet	136	static
-../Core/Src/hab_program.c:225:6:tx_sensor_lora	680	static
-../Core/Src/hab_program.c:261:6:tx_gps_lora	728	static
-../Core/Src/hab_program.c:314:6:init_sensor_timer	8	static
-../Core/Src/hab_program.c:318:6:sensor_irq	112	static

@@ -1,7 +1,0 @@
-sd.c:12:7:get_fattime	1
-sd.c:14:8:sd_init	9
-sd.c:61:8:sd_write_sensor_data	2
-sd.c:83:8:sd_write_gps_data	2
-sd.c:106:8:sd_reinit	4
-sd.c:120:8:sd_deinit	4
-sd.c:134:8:sd_flush	3

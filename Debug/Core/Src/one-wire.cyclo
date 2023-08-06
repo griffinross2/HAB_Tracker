@@ -1,7 +1,0 @@
-one-wire.c:12:19:HAL_SnglWireFullDuplex_EnableRTX	2
-one-wire.c:28:19:HAL_SnglWireFullDuplex_DisableRTX	2
-one-wire.c:43:15:onewireSetup	4
-one-wire.c:92:8:onewire_reset	9
-one-wire.c:132:8:onewire_readwrite	14
-one-wire.c:186:6:onewire_tx_callback	1
-one-wire.c:191:6:onewire_rx_callback	1

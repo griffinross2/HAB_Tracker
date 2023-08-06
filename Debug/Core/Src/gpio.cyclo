@@ -1,3 +1,0 @@
-gpio.c:6:8:gpio_mode	1
-gpio.c:19:8:gpio_write	1
-gpio.c:33:11:gpio_read	3

@@ -1,5 +1,0 @@
-../Core/Src/hab_timer.c:8:6:init_timers	16	static
-../Core/Src/hab_timer.c:13:10:MICROS	32	static
-../Core/Src/hab_timer.c:19:10:MILLIS	8	static
-../Core/Src/hab_timer.c:23:6:DELAY	32	static,ignoring_inline_asm
-../Core/Src/hab_timer.c:30:6:DELAY_MICROS	32	static,ignoring_inline_asm
