@@ -2,6 +2,8 @@
 A high-altitude balloon tracker based on STM32WLE5. Built in STM32CubeIDE.
 
 ## Credit
+Credit to ChaN for fatfs.
+
 Credit to dragonlock2 for APRS code.
 
 Credit to cnnblike for OneWire implementation.

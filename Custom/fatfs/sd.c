@@ -39,7 +39,7 @@ Status sd_init(SpiDevice* dev) {
         return STATUS_HARDWARE_ERROR;
     }
     f_printf(&s_datfile,
-             "Timestamp,Ax,Ay,Az,Rx,Ry,Rz,Temp,Pressure,Mx,My,Mz,Gx,Gy,Gz\n");
+             "Timestamp,Ax,Ay,Az,Rx,Ry,Rz,Temp,Pressure,TempExt,Mx,My,Mz\n");
     if (f_sync(&s_datfile) != FR_OK) {
         return STATUS_HARDWARE_ERROR;
     }
@@ -50,7 +50,7 @@ Status sd_init(SpiDevice* dev) {
     }
     f_printf(
         &s_gpsfile,
-        "Timestamp,Datetime,Lon,Lat,Alt,AccH,AccV,VelN,VelE,VelD,Invalid\n");
+        "Timestamp,Datetime,Lon,Lat,Alt,AccH,AccV,VelN,VelE,VelD,Valid\n");
     if (f_sync(&s_gpsfile) != FR_OK) {
         return STATUS_HARDWARE_ERROR;
     }
@@ -60,19 +60,18 @@ Status sd_init(SpiDevice* dev) {
 
 Status sd_write_sensor_data(volatile SensorData* data) {
     if (f_printf(&s_datfile,
-                 "%llu,"                 // Timestamp
-                 "%9.6f,%9.6f,%9.6f,"    // IMU acceleration
-                 "%9.6f,%9.6f,%9.6f,"    // IMU rotation
-                 "%9.6f,%9.6f,"          // Barometer
-                 "%9.6f,%9.6f,%9.6f,"    // Magnetometer
-                 "%9.6f,%9.6f,%9.6f\n",  // Accelerometer
-                 //
-                 data->timestamp,                                             //
-                 data->accel.accelX, data->accel.accelY, data->accel.accelZ,  //
-                 data->gyro.gyroX, data->gyro.gyroY, data->gyro.gyroZ,        //
-                 data->baro.temperature, data->baro.pressure,                 //
-                 data->mag.magX, data->mag.magY, data->mag.magZ,              //
-                 data->acch.accelX, data->acch.accelY, data->acch.accelZ      //
+                 "%lu,"                  // Timestamp
+                 "%.3f,%.3f,%.3f,"    	 // IMU acceleration
+                 "%.3f,%.3f,%.3f,"    	 // IMU rotation
+                 "%.3f,%.3f,%.3f,"       // Barometer/Probe
+                 "%.3f,%.3f,%.3f"    	 // Magnetometer
+                 "\n",
+				 //
+                 (uint32_t) data->timestamp,                                  			//
+                 data->accel.accelX, data->accel.accelY, data->accel.accelZ,  			//
+                 data->gyro.gyroX, data->gyro.gyroY, data->gyro.gyroZ,        			//
+                 data->baro.temperature, data->baro.pressure, data->temp.temperature,	//
+                 data->mag.magX, data->mag.magY, data->mag.magZ              			//
                  ) <= 0) {
         return STATUS_HARDWARE_ERROR;
     }
@@ -82,20 +81,20 @@ Status sd_write_sensor_data(volatile SensorData* data) {
 
 Status sd_write_gps_data(uint64_t timestamp, volatile GPS_Fix_TypeDef* fix) {
     if (f_printf(&s_gpsfile,
-                 "%llu,"                // Timestamp
+                 "%lu,"                	// Timestamp
                  "%u-%u-%uT%u:%u:%uZ,"  // Datetime
-                 "%9.6f,%9.6f,%9.6f,"   // Lat, Lon, Alt
-                 "%9.6f,%9.6f,"         // Acc
-                 "%9.6f,%9.6f,%9.6f,"   // Vel
-                 "%u\n",                // Invalid
+                 "%.6f,%.6f,%.6f,"   	// Lat, Lon, Alt
+                 "%.3f,%.3f,"         	// Acc
+                 "%.3f,%.3f,%.3f,"   	// Vel
+                 "%u\n",                // Valid
                  //
-                 timestamp,                                     // Timestamp
+				 (uint32_t) timestamp,                          // Timestamp
                  fix->year, fix->month, fix->day,               // Date
                  fix->hour, fix->min, fix->sec,                 // Time
                  fix->lat, fix->lon, fix->height_msl,           // Lat, Lon, Alt
                  fix->accuracy_horiz, fix->accuracy_vertical,   // Acc
                  fix->vel_north, fix->vel_east, fix->vel_down,  // Vel
-                 fix->invalid_llh                               // Invalid
+                 fix->fix_valid                               	// Valid
                  ) <= 0) {
         return STATUS_HARDWARE_ERROR;
     }

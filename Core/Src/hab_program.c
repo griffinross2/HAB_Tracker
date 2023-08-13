@@ -24,8 +24,13 @@
 #include "subghz_phy_app.h"
 #include "radio.h"
 
-#define TARGET_INTERVAL 100  // ms
-#define LOG_FIFO_LEN 256
+#define TARGET_INTERVAL	250  // ms
+#define LOG_FIFO_LEN 	256
+#define PIN_BLUE		PIN_PB4
+#define PIN_YELLOW		PIN_PB3
+#define PIN_PROG		PIN_PH3
+
+const uint64_t LOGGING_TIMEOUT = (1000 * 60 * 60 * 8);
 
 BitFIFO aprs_fifo;
 APRSPacket aprs_packet = {
@@ -38,7 +43,7 @@ static char comment[128];
 volatile uint8_t radio_in_use = 0; // 0 - idle, 1 - primary (APRS), 2 - secondary (LoRa)
 extern volatile LoraState lora_state;
 
-volatile uint64_t timer = 0;
+volatile uint64_t radio_timer = 0;
 
 volatile static struct {
     SensorData queue[LOG_FIFO_LEN];
@@ -69,7 +74,7 @@ static I2cDevice s_imu_conf = {
     .periph = P_I2C1,
 };
 static SpiDevice s_sd_conf = {
-    .clk = SPI_SPEED_10MHz,
+    .clk = SPI_SPEED_1MHz,
     .cpol = 0,
     .cpha = 0,
     .cs = 0,
@@ -80,8 +85,9 @@ static OneWireDevice s_temp_conf = {
 	.reset_speed = ONEWIRE_SPEED_9600,
 };
 
-volatile uint32_t s_last_sensor_read_us;
 volatile SensorData last_sensor_data;
+volatile uint8_t sensor_log_paused = 0;
+volatile uint8_t error_flag = 0;
 
 GPS_Fix_TypeDef fix = {0};
 
@@ -107,6 +113,7 @@ void hab_init()
 		printf("Temperature probe initialization successful\n");
 	} else {
 		printf("Temperature probe initialization failed\n");
+		error_flag = 1;
 	}
 
 	// Initialize magnetometer
@@ -114,6 +121,7 @@ void hab_init()
 		printf("Magnetometer initialization successful\n");
 	} else {
 		printf("Magnetometer initialization failed\n");
+		error_flag = 1;
 	}
 
 	// Initialize barometer
@@ -121,6 +129,7 @@ void hab_init()
 		printf("Barometer initialization successful\n");
 	} else {
 		printf("Barometer initialization failed\n");
+		error_flag = 1;
 	}
 
 	// Initialize IMU
@@ -128,6 +137,7 @@ void hab_init()
 		printf("IMU initialization successful\n");
 	} else {
 		printf("IMU initialization failed\n");
+		error_flag = 1;
 	}
 
 	if (lsm6dsox_config_accel(&s_imu_conf, LSM6DSOX_XL_RATE_208_HZ,
@@ -135,6 +145,7 @@ void hab_init()
 		printf("IMU accel range set successfully\n");
 	} else {
 		printf("IMU accel configuration failed\n");
+		error_flag = 1;
 	}
 
 	if (lsm6dsox_config_gyro(&s_imu_conf, LSM6DSOX_G_RATE_208_HZ,
@@ -142,6 +153,7 @@ void hab_init()
 		printf("IMU gyro range set successfully\n");
 	} else {
 		printf("IMU gyro configuration failed\n");
+		error_flag = 1;
 	}
 
 	// Initialize GPS
@@ -149,6 +161,7 @@ void hab_init()
 		printf("GPS initialization successful\n");
 	} else {
 		printf("GPS initialization failed\n");
+		error_flag = 1;
 	}
 
 	// Initialize SD card
@@ -156,6 +169,7 @@ void hab_init()
 		printf("SD card initialization successful\n");
 	} else {
 		printf("SD card initialization failed\n");
+		error_flag = 1;
 	}
 
 	// Enable heater
@@ -163,18 +177,19 @@ void hab_init()
 
 	init_sensor_timer();
 
-	gpio_write(PIN_PB4, GPIO_HIGH);
+	gpio_write(PIN_BLUE, GPIO_HIGH);
 	DELAY(500);
-	gpio_write(PIN_PB4, GPIO_LOW);
+	gpio_write(PIN_BLUE, GPIO_LOW);
 	DELAY(500);
 
 }
 
 void hab_loop()
 {
-	if(MILLIS() - timer > 60000)
+	// Radio loop
+	if(MILLIS() - radio_timer > 90000)
 	{
-		timer = MILLIS();
+		radio_timer = MILLIS();
 
 		// Send APRS Packet
 		sprintf(comment, "%03.0f:%03.0f:%05.1f",
@@ -193,15 +208,76 @@ void hab_loop()
 
 		DELAY(5000);
 
-		tx_gps_lora(&fix, last_lon, last_lon);
+		tx_gps_lora(&fix, last_lat, last_lon);
+
+		// Save the SD periodically just in case
+		sd_deinit();
+		sd_reinit();
 	}
+
+	// Indicate start of SD write
+	gpio_write(PIN_BLUE, GPIO_HIGH);
+
+	// Save FIFO to SD card
+	uint32_t entries_read = 0;
+	while (fifo.ridx != fifo.widx) {
+		sd_write_sensor_data(&fifo.queue[fifo.ridx]);
+		if (fifo.ridx == LOG_FIFO_LEN - 1) {
+			fifo.ridx = 0;
+		} else {
+			fifo.ridx += 1;
+		}
+		entries_read += 1;
+		if (entries_read == LOG_FIFO_LEN) {
+			break;
+		}
+	}
+
+	// Read and log GPS data
 	if (max_m10s_poll_fix(&s_gps_conf, &fix) == STATUS_OK) {
 		if(!isnan(fix.lat) && !isnan(fix.lon) && fix.fix_valid)
 		{
 			last_lat = fix.lat;
 			last_lon = fix.lon;
 		}
+		sd_write_gps_data(MILLIS(), &fix);
 	}
+
+	// Indicate end of SD write
+	gpio_write(PIN_BLUE, GPIO_LOW);
+
+	// If PROG switch is set or time limit exceeded, unmount SD card and wait
+	if (MILLIS() > LOGGING_TIMEOUT)
+	{
+		gpio_write(PIN_BLUE, GPIO_HIGH);
+		if(!sensor_log_paused)
+		{
+			sd_deinit();
+		}
+		sensor_log_paused = 1;
+	}
+	else if (gpio_read(PIN_PROG)) {
+		sensor_log_paused = 1;
+		sd_deinit();
+
+		gpio_write(PIN_BLUE, GPIO_HIGH);
+		while (gpio_read(PIN_PROG)) {}
+		gpio_write(PIN_BLUE, GPIO_LOW);
+
+		sd_reinit();
+		sensor_log_paused = 0;
+	}
+
+	// Set error light
+	if(!fix.fix_valid || error_flag)
+	{
+		gpio_write(PIN_YELLOW, GPIO_HIGH);
+	}
+	else
+	{
+		gpio_write(PIN_YELLOW, GPIO_LOW);
+	}
+
 	DELAY(1000);
 }
 
@@ -312,14 +388,13 @@ void tx_gps_lora(GPS_Fix_TypeDef* fix, float lat, float lon)
 }
 
 void init_sensor_timer() {
-	HAL_LPTIM_Counter_Start_IT(&hlptim1, TARGET_INTERVAL * 375);
+	HAL_LPTIM_Counter_Start_IT(&hlptim1, TARGET_INTERVAL * 125);
 }
 
 void sensor_irq() {
     Accel current_accel = lsm6dsox_read_accel(&s_imu_conf);
     Gyro current_gyro = lsm6dsox_read_gyro(&s_imu_conf);
 
-    uint64_t start_time = MICROS();
 	SensorData log = {
 		.timestamp = MILLIS(),
 		.accel = current_accel,
@@ -330,10 +405,14 @@ void sensor_irq() {
 	};
 	last_sensor_data = log;
 
+	if(sensor_log_paused)
+	{
+		return;
+	}
+
     if (!((fifo.widx == fifo.ridx - 1) ||
           (fifo.ridx == 0 && fifo.widx == LOG_FIFO_LEN - 1))) {
         // FIFO is not full
-        s_last_sensor_read_us = MICROS() - start_time;
         fifo.queue[fifo.widx] = log;
         if (fifo.widx == LOG_FIFO_LEN - 1) {
             fifo.widx = 0;

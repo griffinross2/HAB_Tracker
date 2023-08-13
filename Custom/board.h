@@ -56,6 +56,7 @@
 #define PIN_PC13 45
 #define PIN_PC14 46
 #define PIN_PC15 47
+#define PIN_PH3 48
 
 // Physical pin to gpio base
 __attribute__((unused)) static GPIO_TypeDef* GPIO_PIN_TO_BASE[] = {
@@ -63,7 +64,7 @@ __attribute__((unused)) static GPIO_TypeDef* GPIO_PIN_TO_BASE[] = {
     GPIOA, GPIOA, GPIOA, GPIOA, GPIOA, GPIOB, GPIOB, GPIOB, GPIOB, GPIOB, GPIOB,
     GPIOB, GPIOB, GPIOB, GPIOB, GPIOB, GPIOB, GPIOB, GPIOB, GPIOB, GPIOB, GPIOC,
     GPIOC, GPIOC, GPIOC, GPIOC, GPIOC, GPIOC, GPIOC, GPIOC, GPIOC, GPIOC, GPIOC,
-    GPIOC, GPIOC, GPIOC, GPIOC,
+    GPIOC, GPIOC, GPIOC, GPIOC, GPIOH,
 };
 
 // Physical pin to gpio num
@@ -77,7 +78,7 @@ __attribute__((unused)) static uint32_t GPIO_PIN_TO_NUM[] = {
     GPIO_PIN_14, GPIO_PIN_15, GPIO_PIN_0,  GPIO_PIN_1,  GPIO_PIN_2,
     GPIO_PIN_3,  GPIO_PIN_4,  GPIO_PIN_5,  GPIO_PIN_6,  GPIO_PIN_7,
     GPIO_PIN_8,  GPIO_PIN_9,  GPIO_PIN_10, GPIO_PIN_11, GPIO_PIN_12,
-    GPIO_PIN_13, GPIO_PIN_14, GPIO_PIN_15,
+    GPIO_PIN_13, GPIO_PIN_14, GPIO_PIN_15, GPIO_PIN_3,
 };
 
 #endif

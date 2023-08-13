@@ -56,6 +56,9 @@ Status spi_setup(SpiDevice* dev) {
         case SPI_SPEED_1MHz:
             prescale = SPI_BAUDRATEPRESCALER_64;
             break;
+        case SPI_SPEED_2MHz:
+			prescale = SPI_BAUDRATEPRESCALER_32;
+			break;
         case SPI_SPEED_10MHz:
             prescale = SPI_BAUDRATEPRESCALER_8;
             break;

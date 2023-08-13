@@ -679,6 +679,7 @@ void MX_DMA_Init(void)
 static void MX_GPIO_Init(void)
 {
 /* USER CODE BEGIN MX_GPIO_Init_1 */
+  __HAL_RCC_GPIOH_CLK_ENABLE();
 /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
@@ -731,8 +732,7 @@ void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
-  __disable_irq();
-  printf("HAL Error");
+  NVIC_SystemReset();
   /* USER CODE END Error_Handler_Debug */
 }
 
